@@ -1,11 +1,13 @@
 package com.idealista.infrastructure.persistence;
 
+import com.idealista.infrastructure.model.CompleteAd;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Consumer;
 
 @Repository
 public class InMemoryPersistence {
@@ -59,4 +61,17 @@ public class InMemoryPersistence {
     public void setPictures(List<PictureVO> pictures) {
         this.pictures = pictures;
     }
+
+    public List<CompleteAd> completeAdList() {
+        List<CompleteAd> completeAdList = Collections.emptyList();
+        List<PictureVO> auxPicList = Collections.emptyList();
+        for(AdVO adVO : this.ads) {
+            for(Integer idPic : adVO.getPictures()) {
+                auxPicList.add(pictures.stream().filter(p -> p.getId().equals(idPic)).findAny().get());
+            }
+            completeAdList.add(new CompleteAd(adVO, auxPicList));
+        }
+        return completeAdList;
+    }
+
 }

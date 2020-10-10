@@ -3,7 +3,6 @@ package com.idealista.infrastructure.api;
 import java.util.List;
 import java.util.Optional;
 
-import com.idealista.domain.model.DomainPublicAd;
 import com.idealista.infrastructure.adapter.AdAdapter;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +20,9 @@ public class AdsController {
     private AdAdapter adAdapter;
 
     @GetMapping(value="/ads", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<T>> adsListing(@RequestParam Optional<String> userRole) {
+    public ResponseEntity<List<IdealistaAd>> adsListing(@RequestParam Optional<String> userRole) {
         //TODO rellena el cuerpo del método
-        adAdapter.getPublicAds();
-        return ResponseEntity.ok(adAdapter.getPublicAds());
+        return ResponseEntity.ok(adAdapter.getIdealistaAds(userRole.orElse("")));
         //return ResponseEntity.notFound().build();
     }
 

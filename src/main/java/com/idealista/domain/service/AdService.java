@@ -1,11 +1,13 @@
 package com.idealista.domain.service;
 
 import com.idealista.domain.model.DomainAd;
+import com.idealista.domain.model.DomainCompleteAd;
 import com.idealista.domain.model.DomainPicture;
 import com.idealista.domain.model.DomainPublicAd;
 import com.idealista.domain.port.primary.IAdService;
 import com.idealista.domain.port.secondary.IAdRepository;
 import com.idealista.domain.port.secondary.IPictureRepository;
+import com.idealista.infrastructure.api.IdealistaAd;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,11 @@ public class AdService implements IAdService {
         Optional<List<DomainPicture>> domainPictures = getDomainPictures();
         if(!domainAds.isPresent()) return Collections.emptyList();
         return transformToDomainPublicAdsList(domainAds.get(), domainPictures.get());
+    }
+
+    @Override
+    public List<DomainCompleteAd> getCompleteAds() {
+        return iAdRepository.getCompleteAds().orElse(Collections.emptyList());
     }
 
     private Optional<List<DomainAd>> getDomainAds() {
